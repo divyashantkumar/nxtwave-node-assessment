@@ -61,6 +61,12 @@ userSchema.methods.comparePassword = async function (incomingPassword) {
     return await bcrypt.compare(incomingPassword, this.password);
 };
 
+// Virtual field for total number of enrolled courses
+userSchema.virtual('age').get(function () {
+    const age = new Date().getFullYear() - new Date(this.dob).getFullYear();
+    return age;
+})
+
 
 export default model('User', userSchema);
 
