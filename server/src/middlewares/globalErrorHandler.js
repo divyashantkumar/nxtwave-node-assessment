@@ -4,20 +4,20 @@ import { Error as MongooseError } from "mongoose";
 // Handle specific MongoDB errors
 export const handleMongoError = (err) => {
     if (err.name === 'CastError') {
-        const e = new CustomError(`Invalid ${err.path}: ${err.value}`, 400, err?.errors);
+        const e = new CustomError(400, `Invalid ${err.path}: ${err.value}`, err?.errors);
         return e.serializeErrors();
     }
     if (err.code === 11000) {
         const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-        const e = new CustomError(`Duplicate field value: ${value}. Please use another value!`, 400, err?.errors);
+        const e = new CustomError(400, `Duplicate field value: ${value}. Please use another value!`, err?.errors);
         return e.serializeErrors();
     }
     if (err.name === 'ValidationError') {
         const errors = Object.values(err.errors).map(el => el.message);
-        const e = new CustomError(`Invalid input data - ${errors.join('. ')}`, 400, err?.errors);
+        const e = new CustomError(400, `Invalid input data - ${errors.join('. ')}`, err?.errors);
         return e.serializeErrors();
     }
-    const e = new CustomError(err?.message || 'Something went wrong', 400, err?.errors);
+    const e = new CustomError(400, err?.message || 'Something went wrong', err?.errors);
     return e.serializeErrors();
 };
 

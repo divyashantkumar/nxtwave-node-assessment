@@ -51,12 +51,6 @@ app.use(boolParser()); // Parse boolean values in query parameters
 app.use(cookieParser());
 
 
-// 5. Static Files Middleware
-app.set('view engine', 'ejs');      // Set up view Engine or Template Engine
-app.set('views', path.join(process.cwd(), 'src', 'views'))         // Set up views folder or template folder
-app.use(express.static('public'));  // Set up static folder for serving static files like css, images, js, etc.
-
-
 // 6. Routes
 app.use('/api/v1/user', userRouter);
 
@@ -64,7 +58,7 @@ app.use('/api/v1/user', userRouter);
 app.use(RegExp('/$'), (req, res, next) => {
     try {
         logger.info('Hello Home Page');
-        res.status(200).render('home');
+        res.status(200).send('All Is Well...');
     } catch (error) {
         throw error;
     }

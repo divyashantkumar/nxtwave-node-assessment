@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import bcrypt from 'bcryptjs';
+
 
 const userSchema = new Schema(
     {
@@ -27,16 +29,17 @@ const userSchema = new Schema(
         },
         company_name: {
             type: String,
-            default: ''
+            required: [true, 'Company name is required'],
         },        
         dob: {
             type: String,
-            default: ''
+            required: [true, 'Date of birth is required'],
         }, 
         avatar: {
             type: String,
-            default: 'default.jpg'
-        }
+            required: [true, 'Avatar is required'],
+        },
+        authenticationOTPToken: String,
     },
     {
         // Enable timestamps for createdAt and updatedAt fields
@@ -68,5 +71,5 @@ userSchema.virtual('age').get(function () {
 })
 
 
-export default model('User', userSchema);
+export const User = model('User', userSchema);
 
