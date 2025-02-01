@@ -10,8 +10,6 @@ import { sendEmail } from "../services/email.service.js";
 
 export const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password, company_name, dob } = req.body;
-    console.log("req.file: ", req.file);
-    console.log("req.body: ", req.body);
 
     const userExists = await User.findOne({ email: email.toLowerCase() }).exec();
 
@@ -69,7 +67,9 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     // send OTP to user's email
     const response = await sendEmail(email, otp);
-    
+
+    console.log(user)
+
     if (response[0].statusCode >= 400) {
         return new CustomError(response[0].statusCode, "OTP Delivery Failed!");
     }
@@ -109,15 +109,21 @@ export const verifyAuthOTP = asyncHandler(async (req, res) => {
     }
 
     const { accessToken, refreshToken } = generateTokens(user);
-
+    
     return res
         .status(200)
-        .cookie("accessToken", accessToken, { ...cookieOptions })
-        .cookie("refreshToken", refreshToken, {
+        .cookie("accessToken", `Bearer ${accessToken}`, { ...cookieOptions })
+        .cookie("refreshToken", `Bearer ${refreshToken}`, {
             ...cookieOptions,
             maxAge: 7 * 24 * 60 * 60 * 1000,
         })
-        .json(new ApiResponse(200, "OTP Verified Successfully!", { status: "success" }));
+        .send(
+            new ApiResponse(
+                200,
+                "OTP Verified Successfully!",
+                { status: "success" }
+            )
+        );
 });
 
 
@@ -139,7 +145,7 @@ export const resendOTP = asyncHandler(async (req, res) => {
     // send OTP to user's email
     const response = await sendEmail(email, otp);
 
-    if (response[0].statusCode >= 400) {        
+    if (response[0].statusCode >= 400) {
         return new CustomError(response[0].statusCode, "OTP Delivery Failed!");
     }
 
@@ -151,7 +157,7 @@ export const resendOTP = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(200, "User Credentials Verified Successfully!", {
                 data: null
-            })  
+            })
         )
 });
 
@@ -164,6 +170,20 @@ export const logoutUser = asyncHandler(async (req, res) => {
             status: "success",
             message: "User logged out successfully",
         });
+});
+
+export const getUser = asyncHandler(async (req, res) => {
+    const { _id } = req?.user;
+
+    const user = await User.findById(_id).select("name email avatar company_name dob").exec();
+
+    if (!user) {
+        throw new CustomError(404, "User not found");
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, "User details fetched successfully", user));
 });
 
 export const deleteUserAccount = asyncHandler(async (req, res) => {

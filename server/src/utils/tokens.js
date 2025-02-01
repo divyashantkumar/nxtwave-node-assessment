@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
 
+
 //here domain, which can access this cookie like localhost, www.checkedspot.com
 //specify .checkedspot.com, isetn this case all the subdomains can also access this cookie like blog.checkedspot.com, checkedspot.com
 export const cookieOptions = {
     domain: process.env.DOMAIN,
     path: "/",
-    sameSite: "Lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: "Lax",    
+    secure: true,
     httpOnly: process.env.NODE_ENV === "production",
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
@@ -44,7 +45,7 @@ export const generateAccessToken = (payload) => {
 export const generateTokens = (payload) => {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
-
+    
     return { accessToken, refreshToken };
 }
 
