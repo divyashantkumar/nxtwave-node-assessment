@@ -46,7 +46,7 @@ export default function Home() {
     <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-200 to-purple-200">
       <div className="text-6xl font-bold text-gray-700">Welcome to NXTWAVE</div>
       <div className="text-3xl font-light text-gray-700 mt-4">
-        Your Next Generation Social Network
+        Your Next Generation UpSkilling Platform
       </div>
       {!accessToken && (
         <div className="mt-8">

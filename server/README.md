@@ -18,12 +18,16 @@ The API endpoints are as follows:
 ### User Endpoints
 
 - **POST /api/v1/user/register**: Registers a new user.
-  - Request Body:
+  - Request Body- All the fields are required:
     - `name`: The user's name.
     - `email`: The user's email.
     - `password`: The user's password.
+    - `company_name`: The user's company name.
+    - `dob`: The user's date of birth.
+    - `avatar`: The user's avatar.
   - Response:
     - `user`: The newly created user object.
+  
 - **POST /api/v1/user/login**: Logs in an existing user.
   - Request Body:
     - `email`: The user's email.
@@ -39,6 +43,7 @@ The API endpoints are as follows:
     - `otp`: The OTP received via email.
   - Response:
     - `user`: The user object if the OTP is valid.
+  
 - **POST /api/v1/auth/resend-otp**: Resends the OTP to the user's email.
   - Request Body:
     - `email`: The user's email.
@@ -59,6 +64,14 @@ The API endpoints are as follows:
     - `accessToken`: The access token used for authentication.
   - Response:
     - `user`: The user object.
+  
+### Delete Account Endpoint
+
+- **DELETE /api/v1/user**: Deletes the user's account.
+  - Request Cookies:
+    - `accessToken`: The access token used for authentication.
+  - Response:
+    - `message`: The success message.
 
 ## Operational Guidelines
 
