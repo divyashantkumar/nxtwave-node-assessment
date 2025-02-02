@@ -37,7 +37,7 @@ export const corsOptions = {
         if (!origin) return callback(null, true);
 
         // Check if the origin is allowed
-        const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
+        const allowedOrigins = ['https://blue-moss-021a20210.4.azurestaticapps.net', 'http://localhost:3000', 'http://localhost:5173'];
 
         // //regEx to test for divyashant.in subdomains ch
         // const allowedOriginsRegex = /^https?:\/\/([a-z0-9-]+\.)?divyashant\.in(:\d+)?$/;

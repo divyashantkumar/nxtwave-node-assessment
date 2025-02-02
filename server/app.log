@@ -114,3 +114,4 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/user\",\"status\":\"200\",\"responseTime\":\"12.677\"}","timestamp":"2025-02-02T19:02:01.986Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/user\",\"status\":\"304\",\"responseTime\":\"9.349\"}","timestamp":"2025-02-02T19:02:02.008Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"DELETE\",\"url\":\"/api/v1/user\",\"status\":\"200\",\"responseTime\":\"12.384\"}","timestamp":"2025-02-02T19:02:19.301Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"OPTIONS\",\"url\":\"/api/v1/user/login\",\"status\":\"500\",\"responseTime\":\"1.079\"}","timestamp":"2025-02-02T19:34:43.892Z"}

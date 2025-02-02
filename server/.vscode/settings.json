@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/6c740eba-6dfb-41ea-837b-00d4729c4b43/resourceGroups/nxtwave/providers/Microsoft.Web/sites/nxtwave-backend",
+    "appService.deploySubpath": "."
+}
