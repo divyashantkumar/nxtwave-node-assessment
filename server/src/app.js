@@ -38,9 +38,10 @@ app.use('/api', rateLimit(rateLimitOptions)); // Apply rate limiter only to API 
 app.use(helmet(helmetOptions)); // Set security headers in HTTP responses
 app.use(hpp(hppOptions)); // Prevent HTTP parameter pollution
 
-
 // 3. CORS configuration
 app.use(cors(corsOptions));
+// pre-flight requests for cross-origin resource sharing
+app.options('*', cors(corsOptions));
 
 
 // 4. Body Parser Middleware

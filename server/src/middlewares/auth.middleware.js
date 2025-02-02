@@ -10,11 +10,16 @@ import {
 
 
 export const isAuthenticated = asyncHandler(async (req, res, next) => {
-    const { accessToken, refreshToken } = req.cookies;
+
+    let { accessToken, refreshToken } = req?.cookies;
 
     if (!accessToken && !refreshToken) {
         return res.status(403).json(new ApiResponse(403, "Bad Request! Access token and refresh token not found in request cookies"));
     }
+
+    accessToken = accessToken.split('Bearer ')[1];
+    refreshToken = refreshToken.split('Bearer ')[1];
+
 
     try {
         // returns null on token expiry else returns decoded token

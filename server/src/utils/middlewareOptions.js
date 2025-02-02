@@ -39,7 +39,7 @@ export const corsOptions = {
         // Check if the origin is allowed
         const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 
-        // //regEx to test for divyashant.in subdomains 
+        // //regEx to test for divyashant.in subdomains ch
         // const allowedOriginsRegex = /^https?:\/\/([a-z0-9-]+\.)?divyashant\.in(:\d+)?$/;
 
         console.log('Request origin:', origin);
@@ -52,7 +52,7 @@ export const corsOptions = {
         return callback(null, true);
     },
 
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Allow only these methods
+    methods: ['GET', 'POST',  'DELETE', 'PUT', 'PATCH', 'OPTIONS'], // Allow only these methods
     allowedHeaders: [
         "Content-Type",
         "Authorization",
@@ -65,6 +65,6 @@ export const corsOptions = {
     exposedHeaders: ['Content-Length'], // Expose these headers to the client
     credentials: true, // Allow cookies and authentication headers to be sent across domains
     maxAge: 3600, // Cache CORS preflight requests for 1 hour
-    optionsSuccessStatus: 204,
+    optionSuccessStatus: 200,
 }
 

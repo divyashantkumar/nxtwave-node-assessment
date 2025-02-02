@@ -196,12 +196,7 @@ export const deleteUserAccount = asyncHandler(async (req, res) => {
         throw new CustomError(404, "User not found");
     }
 
-    // // delete user avatar if it's not the default
-    // if (user.avatar && user.avatar !== "default.jpg") {
-    //     await deleteFileFromCloudinary(user?.avatarPublicId);
-    // }
-
-    const deletedUser = await User.deleteOne({ _id: req?.user?._id }).exec();
+    const deletedUser = await User.deleteOne({ _id: req?.user?._id }).select("name email avatar company_name dob").exec();
 
     if (!deletedUser) {
         throw new CustomError(404, "User not found");
@@ -212,7 +207,7 @@ export const deleteUserAccount = asyncHandler(async (req, res) => {
         .cookie("accessToken", "", { maxAge: 0 })
         .cookie("refreshToken", "", { maxAge: 0 })
         .json(
-            new ApiResponse(200, "User account deleted successfully")
+            new ApiResponse(200, "User account deleted successfully", deletedUser)
         );
 });
 

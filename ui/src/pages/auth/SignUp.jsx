@@ -1,6 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import Loader from "../../components/Loader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -9,12 +12,14 @@ function SignUp() {
   const [companyName, setCompanyName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setLoader(true);
       const response = await axios.post(
         "http://localhost:3000/api/v1/user/register",
         {
@@ -24,26 +29,52 @@ function SignUp() {
           company_name: companyName,
           dob: dateOfBirth,
           avatar,
-        }, {
+        },
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
       );
-  
+
       if (response.status === 200) {
-        navigate("/signin");
+        toast.success(
+          "Registration successful! Redirecting to login page in 3 seconds...",
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+        setTimeout(() => {
+          navigate("/signin");
+        }, 3000);
       } else {
         navigate("/registration-error");
       }
     } catch (error) {
       console.log("error : ", error);
       navigate("/registration-error");
+    } finally {
+      setLoader(false);
     }
   };
 
+  useEffect(() => {
+      const accessToken = document.cookie
+        .split(";")
+        .find((c) => c.trim().startsWith("accessToken="));
+      if (accessToken) {
+        navigate("/");
+      }
+    }, []);
+
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-col justify-center py-12">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
@@ -54,6 +85,8 @@ function SignUp() {
           Sign up for your account
         </h2>
       </div>
+
+      
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -196,8 +229,13 @@ function SignUp() {
           </div>
         </form>
       </div>
+      {loader && <Loader />}
+      <ToastContainer />
     </div>
   );
 }
 
 export default SignUp;
+
+
+

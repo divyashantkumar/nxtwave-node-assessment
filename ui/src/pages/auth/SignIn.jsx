@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import axios from "axios";
+import Loader from "../../components/Loader";
+import { useNavigate } from "react-router";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -8,10 +10,14 @@ function SignIn() {
   const [otp, setOtp] = useState();
   const [otpInitiated, setOtpInitiated] = useState(false);
   const [credentialFailure, setCredentialFailure] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setCredentialFailure(false);
+      setLoader(true);
       // Call signin API here
       const response = await axios.post(
         "http://localhost:3000/api/v1/user/login",
@@ -20,7 +26,7 @@ function SignIn() {
           password,
         }
       );
-  
+
       if (response.status === 200) {
         setOtpInitiated(true);
       } else {
@@ -29,12 +35,15 @@ function SignIn() {
     } catch (error) {
       console.log(error);
       setCredentialFailure(true);
+    } finally {
+      setLoader(false);
     }
   };
 
   const handleOtpVerification = async (e) => {
     try {
       e.preventDefault();
+      setLoader(true);
       const response = await axios.post(
         "http://localhost:3000/api/v1/user/verify-auth-otp",
         {
@@ -45,20 +54,34 @@ function SignIn() {
           withCredentials: true,
         }
       );
-  
+
       if (response.status === 200) {
-        console.log("Redirect To thank you page");
+        localStorage.setItem("user", JSON.stringify(true));
+        navigate("/greet");
       } else {
-        console.log("Redirect to login fail page");
+        sessionStorage.setItem("loginError", "true");
+        navigate('/login-error')
       }
     } catch (error) {
       console.log(error);
-      console.log("Redirect to login fail page");
+      sessionStorage.setItem("loginError", "true");
+      navigate('/login-error')
+    } finally {
+      setLoader(false);
     }
   };
 
+  useEffect(() => {
+    const accessToken = document.cookie
+      .split(";")
+      .find((c) => c.trim().startsWith("accessToken="));
+    if (accessToken) {
+      navigate("/");
+    }
+  }, []);
+
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-col justify-center py-12">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
@@ -181,6 +204,8 @@ function SignIn() {
           </div>
         </form>
       </div>
+
+      {loader && <Loader />}
     </div>
   );
 }
