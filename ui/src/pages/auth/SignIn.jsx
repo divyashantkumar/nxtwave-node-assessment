@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import { useNavigate } from "react-router";
+import { BASE_URL } from "../../data";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -19,13 +20,10 @@ function SignIn() {
       setCredentialFailure(false);
       setLoader(true);
       // Call signin API here
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/user/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/api/v1/user/login`, {
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         setOtpInitiated(true);
@@ -45,7 +43,7 @@ function SignIn() {
       e.preventDefault();
       setLoader(true);
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/verify-auth-otp",
+        `${BASE_URL}/api/v1/user/verify-auth-otp`,
         {
           email,
           otp,
@@ -60,12 +58,12 @@ function SignIn() {
         navigate("/greet");
       } else {
         sessionStorage.setItem("loginError", "true");
-        navigate('/login-error')
+        navigate("/login-error");
       }
     } catch (error) {
       console.log(error);
       sessionStorage.setItem("loginError", "true");
-      navigate('/login-error')
+      navigate("/login-error");
     } finally {
       setLoader(false);
     }

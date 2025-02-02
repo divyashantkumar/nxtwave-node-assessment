@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../data";
 
 const ThankYou = () => {
   const [user, setUser] = useState({});
@@ -8,7 +9,7 @@ const ThankYou = () => {
 
   async function getUser() {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/user", {
+      const response = await axios.get(`${BASE_URL}/api/v1/user`, {
         withCredentials: true,
       });
       console.log("response.data : ", response.data);

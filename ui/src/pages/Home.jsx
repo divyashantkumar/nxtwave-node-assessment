@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import axios from "axios";
 import { useState } from "react";
+import { BASE_URL } from "../data";
 
 export default function Home() {
   const [accessToken, setAccessToken] = useState(
@@ -27,7 +28,7 @@ export default function Home() {
   async function logout() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/logout",
+        `${BASE_URL}/api/v1/user/logout`,
         {},
         {
           withCredentials: true,

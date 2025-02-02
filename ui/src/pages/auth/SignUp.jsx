@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import Loader from "../../components/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../data";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ function SignUp() {
       e.preventDefault();
       setLoader(true);
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/register",
+        `${BASE_URL}/api/v1/user/register`,
         {
           name,
           email,
