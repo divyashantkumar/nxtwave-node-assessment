@@ -6,9 +6,9 @@ import jwt from 'jsonwebtoken';
 export const cookieOptions = {
     domain: process.env.DOMAIN,
     path: "/",
-    sameSite: "Lax",    
+    sameSite: "None",    
     secure: true,
-    httpOnly: process.env.NODE_ENV === "production",
+    httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 

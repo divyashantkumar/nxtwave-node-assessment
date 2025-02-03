@@ -34,7 +34,7 @@ const ThankYou = () => {
           <span className="text-2xl font-extrabold text-gray-500">
             Thank You! {" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-600">
-              {user.name || "RAVI"}
+              {user.name}
             </span>
           </span>
         </h1>
