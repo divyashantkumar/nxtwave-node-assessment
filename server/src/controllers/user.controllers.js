@@ -110,6 +110,7 @@ export const verifyAuthOTP = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = generateTokens(user);
     
+
     return res
         .status(200)
         .cookie("accessToken", `Bearer ${accessToken}`, { ...cookieOptions })

@@ -65,6 +65,7 @@ export const verifyAccessTokenValidity = (token) => {
     }
 }
 
+
 export const generateOTPToken = (otp) => {
     return jwt.sign(
         {otp},

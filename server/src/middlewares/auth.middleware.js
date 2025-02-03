@@ -12,7 +12,7 @@ import {
 export const isAuthenticated = asyncHandler(async (req, res, next) => {
 
     let { accessToken, refreshToken } = req?.cookies;
-
+    
     if (!accessToken && !refreshToken) {
         return res.status(403).json(new ApiResponse(403, "Bad Request! Access token and refresh token not found in request cookies"));
     }
