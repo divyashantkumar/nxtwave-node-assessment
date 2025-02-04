@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export const cookieOptions = {
     domain: process.env.DOMAIN,
     path: "/",
-    sameSite: "None",    
+    sameSite: "Lax",    
     secure: true,
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours

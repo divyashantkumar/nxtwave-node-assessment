@@ -1,24 +1,25 @@
 import { Link } from "react-router";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../data";
 
 export default function Home() {
   const [accessToken, setAccessToken] = useState(
-    document.cookie.split(";").find((c) => c.trim().startsWith("accessToken="))
+    localStorage.getItem("authenticated")
   );
 
   async function deleteUserAccount() {
     try {
       const response = await axios({
-        url: "http://localhost:3000/api/v1/user",
+        url: `${BASE_URL}/api/v1/user`,
         method: "DELETE",
         withCredentials: true,
       });
-      
-      console.log("response : ", response);
-      if (response.status === 200) setAccessToken(null);
-      else alert("Account Deletion Failed");
+
+      if (response.status === 200) {
+        localStorage.removeItem("authenticated");
+        setAccessToken(null);
+      } else alert("Account Deletion Failed");
     } catch (error) {
       console.log("error : ", error);
       alert("Account Deletion Failed");
@@ -35,14 +36,29 @@ export default function Home() {
         }
       );
 
-      if (response.status === 200) setAccessToken(null);
-      else alert("Logout Failed");
+      if (response.status === 200) {
+        localStorage.removeItem("authenticated");
+        setAccessToken(null);
+      } else alert("Logout Failed");
     } catch (error) {
       console.log("error : ", error);
       alert("Logout Failed");
     }
   }
 
+  async function isAuthenticated() {
+    const response = await axios.get(`${BASE_URL}/api/v1/auth/status`, {
+      withCredentials: true,
+    })
+
+    if(response.status != 200) {
+      localStorage.removeItem('authenticated');
+    }
+  }
+
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-200 to-purple-200">
       <div className="text-6xl font-bold text-gray-700">Welcome to NXTWAVE</div>

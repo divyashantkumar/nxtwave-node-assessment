@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
 const RequireAuth = () => {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem("authenticated");
 
     
     if (!user) {

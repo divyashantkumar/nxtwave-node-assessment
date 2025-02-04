@@ -55,6 +55,7 @@ function SignIn() {
 
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(true));
+        localStorage.setItem("authenticated", true);
         navigate("/greet");
       } else {
         sessionStorage.setItem("loginError", "true");
