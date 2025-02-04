@@ -109,7 +109,7 @@ export const verifyAuthOTP = asyncHandler(async (req, res) => {
     }
 
     const { accessToken, refreshToken } = generateTokens(user);
-    
+
 
     return res
         .status(200)
@@ -165,8 +165,8 @@ export const resendOTP = asyncHandler(async (req, res) => {
 export const logoutUser = asyncHandler(async (req, res) => {
     return res
         .status(200)
-        .cookie("accessToken", "", { maxAge: 0 })
-        .cookie("refreshToken", "", { maxAge: 0 })
+        .cookie("accessToken", "", { ...cookieOptions, maxAge: 0 })
+        .cookie("refreshToken", "", { ...cookieOptions, maxAge: 0 })
         .json({
             status: "success",
             message: "User logged out successfully",
@@ -205,11 +205,11 @@ export const deleteUserAccount = asyncHandler(async (req, res) => {
 
     res
         .status(200)
-        .cookie("accessToken", "", { maxAge: 0 })
-        .cookie("refreshToken", "", { maxAge: 0 })
+        .cookie("accessToken", "", { ...cookieOptions, maxAge: 0 })
+        .cookie("refreshToken", "", { ...cookieOptions, maxAge: 0 })
         .json(
             new ApiResponse(200, "User account deleted successfully", deletedUser)
         );
 });
 
- 
+

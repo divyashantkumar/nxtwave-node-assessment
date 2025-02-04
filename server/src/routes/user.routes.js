@@ -19,7 +19,7 @@ router.route('/register').post(upload.single('avatar'), registerUser);
 
 router.route('/login').post(loginUser);
 
-router.route('auth/status').get(isAuthenticated, (req, res) => {
+router.route('/auth/status').get(isAuthenticated, (req, res) => {
     try {
         return res.status(200).json(new ApiResponse(200, "User is authenticated"));
     } catch (error) {
